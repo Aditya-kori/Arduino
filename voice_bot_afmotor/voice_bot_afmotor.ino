@@ -81,21 +81,21 @@ void loop() {
     }
 
     // Process the command
-    if (command == "forward") {
+    if (command == "move forward") {
       moveForward();
-    } else if (command == "backward") {
+    } else if (command == "move backward") {
       moveBackward();
-    } else if (command == "left") {
+    } else if (command == "turn left") {
       turnLeft(90);  // Default turn left 90 degrees
-    } else if (command == "right") {
+    } else if (command == "turn right") {
       turnRight(90); // Default turn right 90 degrees
     } else if (command == "stop") {
       stopMotors();
-    } else if (command.startsWith("left ")) {
-      int angle = command.substring(5).toInt();
+    } else if (command.startsWith("turn left ")) {
+      int angle = command.substring(10).toInt();
       turnLeft(angle);  // Turn left by the specified angle
-    } else if (command.startsWith("right ")) {
-      int angle = command.substring(6).toInt();
+    } else if (command.startsWith("turn right ")) {
+      int angle = command.substring(11).toInt();
       turnRight(angle); // Turn right by the specified angle
     }
   }
