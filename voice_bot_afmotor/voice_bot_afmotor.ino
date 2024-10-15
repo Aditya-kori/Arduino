@@ -104,10 +104,19 @@ void loop() {
 // Move the car forward
 void moveForward() {
   Serial.println("Moving forward...");
+  ultrasonicServo.write(90); // Ensuring the uitrasonic sensor is facing front
+  while(true){
+    frontDistance = getUltrasonicDistance();
+    if (frontDistance < 20){ // Stop if the obstacle is detected withing 20cm
+      Serial.println("Obstacle detected in front while moving forward, stopping.");
+      stopMotors();
+      break;  
+  }
   motor1.run(FORWARD);
   motor2.run(FORWARD);
   motor3.run(FORWARD);
   motor4.run(FORWARD);
+}
 }
 
 // Move the car backward
