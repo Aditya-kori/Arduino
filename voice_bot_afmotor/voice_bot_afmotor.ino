@@ -105,27 +105,34 @@ void loop() {
 void moveForward() {
   Serial.println("Moving forward...");
   ultrasonicServo.write(90); // Ensuring the uitrasonic sensor is facing front
-  while(true){
+  while (true) {
     frontDistance = getUltrasonicDistance();
-    if (frontDistance < 20){ // Stop if the obstacle is detected withing 20cm
+    if (frontDistance < 20) { // Stop if the obstacle is detected withing 20cm
       Serial.println("Obstacle detected in front while moving forward, stopping.");
       stopMotors();
-      break;  
+      break;
+    }
+    motor1.run(FORWARD);
+    motor2.run(FORWARD);
+    motor3.run(FORWARD);
+    motor4.run(FORWARD);
   }
-  motor1.run(FORWARD);
-  motor2.run(FORWARD);
-  motor3.run(FORWARD);
-  motor4.run(FORWARD);
-}
 }
 
 // Move the car backward
 void moveBackward() {
   Serial.println("Moving backward...");
-  motor1.run(BACKWARD);
-  motor2.run(BACKWARD);
-  motor3.run(BACKWARD);
-  motor4.run(BACKWARD);
+  while (true) {
+    if (isRearObstacle()) {  // Stop if an obstacle is detected at the back
+      Serial.println("Obstacle detected in the rear while moving backward, stopping.");
+      stopMotors();
+      break;
+    }
+    motor1.run(BACKWARD);
+    motor2.run(BACKWARD);
+    motor3.run(BACKWARD);
+    motor4.run(BACKWARD);
+  }
 }
 
 // Turn left by a specific angle with obstacle checking
@@ -184,7 +191,7 @@ int getUltrasonicDistance() {
 
   // Read echo pulse
   duration = pulseIn(echoPin, HIGH);
-  
+
   // Calculate distance (in cm)
   distance = duration * 0.034 / 2;
 
